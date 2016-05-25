@@ -64,6 +64,24 @@ class BBBService
 
         return $output;
 	}
+	
+	public function doPostRequest($url,$xml, $timeout = 2){
+        $headers = array(
+                "Content-type: text/xml",
+                "Content-length: " . strlen($xml),
+                   "Connection: close",
+        );
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $data = curl_exec($ch);
+        return $data;
+
+        }
 
 	public function cleanUri($uri){
 		// remove dev url
